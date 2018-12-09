@@ -70,14 +70,14 @@ def AWSPrice(json_dict):
 
 
 """ Tocaro通知関数 """
-def Tocaro_notify(message):
+def Tocaro_notify(totalization, message):
     """ Deta """
     payload = {
-        "text": "This is sample message. link format is http://example.com",
+        "text": "AWS Pay Info",
         "color": "info", #// info, warning, danger, success
         "attachments": [
           {
-            "title": "This is sample title",
+            "title": "totalization" ,
             "value": message
           }
         ]
@@ -96,6 +96,7 @@ today = datetime.today()
 srt = today.replace(day=1)
 end = (today + relativedelta(months=1)).replace(day=1) - timedelta(days=1)
 
+
 """ AWSコマンド発行 """
 proc = subprocess.run(AWSCmd(srt, end),stdout = subprocess.PIPE, stderr = subprocess.PIPE, shell =True)
 
@@ -105,4 +106,4 @@ json_dict = json.loads(body)
 message = AWSPrice(json_dict)
 
 """ Tocaro通知 """
-Tocaro_notify(message)
+Tocaro_notify(totalization, message)
